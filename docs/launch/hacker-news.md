@@ -17,4 +17,4 @@ The package is intentionally narrow. It focuses on:
 
 One caveat: the Mail action helper currently assumes Apple Mail's V10 Envelope Index path/schema, so portability feedback across macOS versions would be useful.
 
-Repo: https://github.com/longbiaochen/codex-apple-skills
+Repo: https://github.com/longbiaochen/apple-skills

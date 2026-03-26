@@ -19,4 +19,4 @@ The repo includes install docs, permission guidance, usage recipes, and launch c
 
 One known limitation is that the Mail action helper is tied to Apple Mail's current V10 Envelope Index path/schema, so I documented that rather than hiding it.
 
-Repo: https://github.com/longbiaochen/codex-apple-skills
+Repo: https://github.com/longbiaochen/apple-skills

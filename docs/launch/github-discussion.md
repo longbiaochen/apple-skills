@@ -1,6 +1,6 @@
 # Launch Post
 
-I open-sourced `codex-apple-skills`, a focused Codex skill bundle for Apple Notes, Reminders, and Mail on macOS.
+I open-sourced `apple-skills`, a focused Codex skill bundle for Apple Notes, Reminders, and Mail on macOS.
 
 What it includes:
 

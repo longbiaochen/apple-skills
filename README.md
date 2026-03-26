@@ -64,14 +64,14 @@ apple-reminders/
 Copy or symlink the skill folders into your Codex skills directory.
 
 ```bash
-cd /path/to/your/codex-apple-skills
+cd /path/to/your/apple-skills
 cp -R apple-ecosystem apple-mail apple-notes apple-reminders ~/.codex/skills/
 ```
 
 Or symlink them during development:
 
 ```bash
-cd /path/to/your/codex-apple-skills
+cd /path/to/your/apple-skills
 ln -s "$(pwd)/apple-ecosystem" ~/.codex/skills/apple-ecosystem
 ln -s "$(pwd)/apple-mail" ~/.codex/skills/apple-mail
 ln -s "$(pwd)/apple-notes" ~/.codex/skills/apple-notes
