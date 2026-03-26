@@ -6,6 +6,8 @@
 
 Local-first Apple app skills for coding agents on macOS.
 
+Repo: [github.com/longbiaochen/apple-skills](https://github.com/longbiaochen/apple-skills)
+
 This repository packages four canonical skills:
 
 - `apple-ecosystem`: a router skill that sends Apple app tasks to the right specialist skill
@@ -81,6 +83,14 @@ docs/
 | Codex / OpenAI skills | skill folders + `SKILL.md` | Install the four skill folders directly. |
 | Claude | `CLAUDE.md` | Use the repo-level adapter, then follow the relevant skill. |
 | AGENTS-style runtimes, including OpenClaw | `AGENTS.md` | Use the repo-level adapter, then follow the relevant skill. |
+
+## Repo Links
+
+- GitHub repo: [github.com/longbiaochen/apple-skills](https://github.com/longbiaochen/apple-skills)
+- Canonical contract: [docs/agent-contract.md](./docs/agent-contract.md)
+- AGENTS adapter: [AGENTS.md](./AGENTS.md)
+- Claude adapter: [CLAUDE.md](./CLAUDE.md)
+- Launch drafts: [docs/launch/x.md](./docs/launch/x.md), [docs/launch/github-discussion.md](./docs/launch/github-discussion.md), [docs/launch/hacker-news.md](./docs/launch/hacker-news.md), [docs/launch/reddit.md](./docs/launch/reddit.md)
 
 ## Install And Consume
 
@@ -214,4 +224,4 @@ Ready-to-post launch drafts live in [docs/launch/x.md](./docs/launch/x.md), [doc
 
 ## Keywords
 
-AI agent skills, Codex skills, Claude agents, OpenClaw, macOS automation, Apple Mail CLI, Apple Notes CLI, Apple Reminders CLI, local-first AI, Mail.app automation, Apple productivity workflows.
+AI agent skills, Codex skills, Claude agents, OpenClaw, AGENTS.md, macOS automation, Apple Mail CLI, Apple Notes CLI, Apple Reminders CLI, local-first AI, Mail.app automation, Apple productivity workflows.
