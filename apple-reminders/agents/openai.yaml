@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple Reminders"
+  short_description: "List, add, and manage Apple Reminders on macOS"
+  default_prompt: "Use $apple-reminders to manage Apple Reminders with local tools."

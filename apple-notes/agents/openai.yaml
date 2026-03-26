@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple Notes"
+  short_description: "Create, search, edit, and export Apple Notes locally"
+  default_prompt: "Use $apple-notes to manage Apple Notes with local tools."

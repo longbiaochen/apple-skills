@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple Mail"
+  short_description: "Search, read, draft, and act on Apple Mail locally"
+  default_prompt: "Use $apple-mail to work with Mail.app through local tools."

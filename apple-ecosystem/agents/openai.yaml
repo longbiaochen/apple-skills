@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple Ecosystem"
+  short_description: "Route Apple Notes, Reminders, and Mail tasks on macOS"
+  default_prompt: "Use $apple-ecosystem to route this Apple app task to the right skill."

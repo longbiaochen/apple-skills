@@ -1,67 +1,92 @@
-# Codex Apple Skills
+# Apple Skills
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![macOS](https://img.shields.io/badge/platform-macOS-black.svg)](https://www.apple.com/macos/)
-[![Codex Skills](https://img.shields.io/badge/Codex-skills-blue.svg)](https://github.com/openai)
+[![Local First](https://img.shields.io/badge/workflow-local--first-blue.svg)](./docs/agent-contract.md)
 
-Local-first Codex skills for Apple Notes, Reminders, and Mail on macOS.
+Local-first Apple app skills for coding agents on macOS.
 
-This repository packages four focused Codex skills:
+This repository packages four canonical skills:
 
 - `apple-ecosystem`: a router skill that sends Apple app tasks to the right specialist skill
 - `apple-notes`: manage Apple Notes through `memo`
 - `apple-reminders`: manage Apple Reminders through `remindctl`
 - `apple-mail`: search, read, draft, and act on Apple Mail with `fruitmail`, `osascript`, and helper scripts
 
-The repo is intentionally small. It is a practical bundle you can copy into a Codex setup and use immediately.
+The skill folders are the source of truth. Repo-level files such as `README.md`, `AGENTS.md`, and `CLAUDE.md` are adapters that mirror those skills for different agent runtimes.
 
 ## Why this exists
 
-Most AI workflows reach for browser automation or third-party APIs. These skills take the opposite approach:
+Most AI workflows reach for browser automation or third-party APIs. This repo takes the opposite approach:
 
 - stay local-first
 - reuse Apple apps already configured on the Mac
 - avoid new OAuth flows when local tools are enough
 - keep workflows transparent and scriptable
 
-## Architecture
+## Canonical Surface
 
-The package has one router skill and three app-specific skills.
+The package has one router skill and three app-specific skills:
 
 - `apple-ecosystem` decides whether a request belongs to Notes, Reminders, or Mail
 - `apple-notes` wraps `memo`
 - `apple-reminders` wraps `remindctl`
 - `apple-mail` combines `fruitmail` for fast read-only access with helper scripts for drafting and exact-message actions
 
+Shared behavior invariants live in [docs/agent-contract.md](./docs/agent-contract.md).
+
 ## Included Files
 
 ```text
+AGENTS.md
+CLAUDE.md
 apple-ecosystem/
   SKILL.md
+  agents/openai.yaml
 apple-mail/
   SKILL.md
+  agents/openai.yaml
+  references/
+    usage.md
   scripts/
     mail_action.sh
     mail_draft.sh
 apple-notes/
   SKILL.md
+  agents/openai.yaml
+  references/
+    usage.md
 apple-reminders/
   SKILL.md
+  agents/openai.yaml
+  references/
+    usage.md
+docs/
+  agent-contract.md
 ```
 
 ## Prerequisites
 
 - macOS with Apple Notes, Reminders, and Mail available
-- Codex installed and configured locally
 - `osascript` and `sqlite3` available on the system
 - these app-specific CLIs installed if you want full functionality:
   - [`memo`](https://github.com/antoniorodr/memo) for Apple Notes
   - [`remindctl`](https://github.com/steipete/remindctl) for Apple Reminders
   - [`fruitmail`](https://github.com/gumadeiras/fruitmail-cli) for Apple Mail search and read
 
-## Install
+## Compatibility
 
-Copy or symlink the skill folders into your Codex skills directory.
+| Runtime | Entry point | Notes |
+| --- | --- | --- |
+| Codex / OpenAI skills | skill folders + `SKILL.md` | Install the four skill folders directly. |
+| Claude | `CLAUDE.md` | Use the repo-level adapter, then follow the relevant skill. |
+| AGENTS-style runtimes, including OpenClaw | `AGENTS.md` | Use the repo-level adapter, then follow the relevant skill. |
+
+## Install And Consume
+
+### Codex / OpenAI Skills
+
+Copy or symlink the skill folders into your Codex skills directory:
 
 ```bash
 cd /path/to/your/apple-skills
@@ -77,6 +102,16 @@ ln -s "$(pwd)/apple-mail" ~/.codex/skills/apple-mail
 ln -s "$(pwd)/apple-notes" ~/.codex/skills/apple-notes
 ln -s "$(pwd)/apple-reminders" ~/.codex/skills/apple-reminders
 ```
+
+Each skill includes `agents/openai.yaml` metadata for OpenAI-style skill UIs.
+
+### Claude
+
+Read [`CLAUDE.md`](./CLAUDE.md) as the repo-level adapter, then consult the relevant skill folder.
+
+### AGENTS-Style Runtimes / OpenClaw
+
+Read [`AGENTS.md`](./AGENTS.md) as the repo-level adapter, then consult the relevant skill folder.
 
 ## Verify Setup
 
@@ -94,7 +129,7 @@ osascript -e 'tell application "Mail" to get version'
 
 ## macOS Permissions
 
-You may need to approve the terminal app or Codex host app in System Settings:
+You may need to approve the terminal app or agent host app in System Settings:
 
 - Apple Notes: Automation access if `memo` or AppleScript triggers Notes access prompts
 - Apple Reminders: run `remindctl authorize` if `remindctl status` shows access is missing
@@ -151,7 +186,7 @@ fruitmail open 94695
 
 ## Demo Flow
 
-Typical end-to-end use inside Codex:
+Typical end-to-end use for any agent:
 
 1. User asks to search recent unread mail from a sender.
 2. `apple-ecosystem` routes to `apple-mail`.
@@ -179,4 +214,4 @@ Ready-to-post launch drafts live in [docs/launch/x.md](./docs/launch/x.md), [doc
 
 ## Keywords
 
-Codex skills, macOS automation, Apple Mail CLI, Apple Notes CLI, Apple Reminders CLI, local-first AI, Mail.app automation, Apple productivity workflows.
+AI agent skills, Codex skills, Claude agents, OpenClaw, macOS automation, Apple Mail CLI, Apple Notes CLI, Apple Reminders CLI, local-first AI, Mail.app automation, Apple productivity workflows.

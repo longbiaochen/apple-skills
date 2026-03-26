@@ -13,19 +13,6 @@ Setup:
 - Check the CLI: `memo --help`
 - If Notes access is blocked, ask the user to grant Automation access to the terminal app in System Settings.
 
-Common commands:
-
-```bash
-memo notes
-memo notes -f "Folder Name"
-memo notes -s "query"
-memo notes -a "Note Title"
-memo notes -e
-memo notes -m
-memo notes -d
-memo notes -ex
-```
-
 Guidance:
 
 - Use search before edit or delete when the target note is ambiguous.
@@ -36,3 +23,5 @@ When not to use:
 
 - If the user wants reminders or alerts, use `apple-reminders`.
 - If the user wants email drafting or inbox work, use `apple-mail`.
+
+Read [references/usage.md](./references/usage.md) for command examples and workflow notes.
