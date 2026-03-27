@@ -69,3 +69,18 @@ export async function deleteReminder({ ids }) {
   const result = ensureSuccess(runCommand("remindctl", args), "remindctl delete failed");
   return parseJson(result.stdout, "Invalid remindctl delete JSON");
 }
+
+export async function authorizeReminders() {
+  const result = runCommand("remindctl", ["authorize", "--json", "--no-input"]);
+  if (result.status !== 0) {
+    return {
+      ok: false,
+      output: (result.stderr || result.stdout).trim(),
+    };
+  }
+
+  return {
+    ok: true,
+    data: parseJson(result.stdout, "Invalid remindctl authorize JSON"),
+  };
+}

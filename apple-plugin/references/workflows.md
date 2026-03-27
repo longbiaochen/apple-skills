@@ -15,7 +15,7 @@ cd /path/to/apple-skills/apple-plugin
 
 - `apple_doctor`: dependency and permission checks
 - `apple_notes_*`: list, search, create, update, and delete notes
-- `apple_reminders_*`: show, list lists, add, edit, complete, and delete reminders
+- `apple_reminders_*`: show, authorize, list lists, add, edit, complete, and delete reminders
 - `apple_mail_*`: search/read/open mail, create draft, send draft-like compose flows, and exact message actions
 
 ## Fallback Model
@@ -31,4 +31,6 @@ If the plugin is not installed:
 - Mail drafts come before send unless the user explicitly requests send.
 - Mail deletes, archives, and mailbox moves require explicit user intent.
 - Reminder and note deletes require explicit confirmation.
+- Reminders authorization can be triggered through `apple_reminders_authorize`, but macOS may still require the user to approve Terminal in System Settings.
+- Notes calls fail fast when the Notes AppleScript bridge is blocked or too slow, and `apple_doctor` reports that state explicitly.
 - The plugin does not introduce provider APIs or new OAuth flows when local Apple tooling is enough.

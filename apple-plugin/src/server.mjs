@@ -20,6 +20,7 @@ import {
 } from "./lib/notes.mjs";
 import {
   addReminder,
+  authorizeReminders,
   completeReminder,
   deleteReminder,
   editReminder,
@@ -110,6 +111,12 @@ server.tool(
     withDeleteConfirmation(input.confirm, "apple_notes_delete");
     return toContent(await deleteNote(input));
   },
+);
+
+server.tool(
+  "apple_reminders_authorize",
+  "Trigger the macOS Reminders permission prompt when available.",
+  async () => toContent(await authorizeReminders()),
 );
 
 server.tool(

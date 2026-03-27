@@ -76,7 +76,15 @@ function resolveUniqueNote(notes, name, folder) {
 }
 
 export async function listNotes({ folder, limit = 50, includePreview = false }) {
-  const notes = parseLines(runAppleScript(listScript(limit, includePreview)));
+  let output;
+  try {
+    output = runAppleScript(listScript(limit, includePreview), includePreview ? 8000 : 4000);
+  } catch (error) {
+    throw new Error(
+      `Apple Notes list failed. The Notes AppleScript bridge may be blocked or too slow on this machine: ${error.message}`,
+    );
+  }
+  const notes = parseLines(output);
   if (!folder) {
     return notes;
   }
@@ -103,7 +111,7 @@ export async function createNote({ title, body, folder }) {
 tell application "Notes"
   ${folderClause}
   return (id of newNote as text) & tab & (name of container of newNote as text)
-end tell`);
+end tell`, 8000);
 
   const [id, resolvedFolder] = output.split("\t");
   return { id, title, folder: resolvedFolder };
@@ -125,7 +133,7 @@ tell application "Notes"
   ${renameClause}
   ${bodyClause}
   return id of targetNote as text
-end tell`);
+end tell`, 8000);
 
   return {
     id: match.id,
@@ -141,7 +149,7 @@ export async function deleteNote({ note, folder }) {
   runAppleScript(`
 tell application "Notes"
   delete (first note whose id is "${escapeAppleScriptString(match.id)}")
-end tell`);
+end tell`, 8000);
 
   return { ok: true, id: match.id, title: match.name, folder: match.folder };
 }

@@ -50,11 +50,30 @@ function checkMailVersion() {
   };
 }
 
+function checkNotesStatus() {
+  const folderProbe = runCommand("osascript", ["-e", 'tell application "Notes" to get name of first folder']);
+  const noteProbe = runCommand(
+    "osascript",
+    ["-e", 'tell application "Notes" to get name of first note of first folder'],
+    { timeout: 4000 },
+  );
+
+  return {
+    folderProbeOk: folderProbe.status === 0,
+    folderProbe: (folderProbe.stdout || folderProbe.stderr).trim(),
+    noteProbeOk: noteProbe.status === 0 && !noteProbe.error,
+    noteProbe: noteProbe.error?.code === "ETIMEDOUT"
+      ? "Timed out while reading note content or note metadata."
+      : (noteProbe.stdout || noteProbe.stderr).trim(),
+  };
+}
+
 export async function runDoctor() {
   return {
     generatedAt: new Date().toISOString(),
     tools: CHECKS.map((tool) => checkTool(tool.name, tool.kind)),
     reminders: checkRemindersStatus(),
+    notes: checkNotesStatus(),
     mail: {
       version: checkMailVersion(),
       scripts: checkMailScripts(),

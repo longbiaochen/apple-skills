@@ -17,7 +17,7 @@ Use the MCP server first:
 
 - `apple_doctor` to inspect local dependencies and permissions
 - `apple_notes_*` for structured Apple Notes operations
-- `apple_reminders_*` for Apple Reminders operations
+- `apple_reminders_*` for Apple Reminders operations, including authorization checks
 - `apple_mail_*` for Apple Mail search, drafts, send, and exact-message actions
 
 Rules:
@@ -25,6 +25,7 @@ Rules:
 - Keep workflows local-first on macOS.
 - Draft email before send by default.
 - Confirm destructive or ambiguous writes before executing them.
+- Use `apple_doctor` first when Notes or Reminders permissions appear unhealthy.
 - If the plugin is unavailable, fall back to the canonical skill folders in the repo root.
 
 Read [../../references/workflows.md](../../references/workflows.md) for install steps, tool routing, and the fallback model.

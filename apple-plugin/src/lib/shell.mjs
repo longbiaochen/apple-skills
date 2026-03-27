@@ -7,7 +7,7 @@ export function runCommand(command, args = [], options = {}) {
     ...options,
   });
 
-  if (result.error) {
+  if (result.error && result.error.code !== "ETIMEDOUT") {
     throw result.error;
   }
 
@@ -17,10 +17,15 @@ export function runCommand(command, args = [], options = {}) {
     status: result.status ?? 1,
     stdout: result.stdout ?? "",
     stderr: result.stderr ?? "",
+    error: result.error ?? null,
   };
 }
 
 export function ensureSuccess(result, context) {
+  if (result.error?.code === "ETIMEDOUT") {
+    throw new Error(`${context}: command timed out`);
+  }
+
   if (result.status !== 0) {
     const stderr = result.stderr.trim();
     const stdout = result.stdout.trim();
@@ -41,7 +46,12 @@ export function which(command) {
   return value || null;
 }
 
-export function runAppleScript(script) {
-  const result = runCommand("osascript", ["-"], { input: script });
+export function runAppleScript(script, timeout = 5000) {
+  const result = runCommand("osascript", ["-"], { input: script, timeout });
+
+  if (result.error?.code === "ETIMEDOUT") {
+    throw new Error(`AppleScript timed out after ${timeout}ms`);
+  }
+
   return ensureSuccess(result, "AppleScript failed").stdout.trim();
 }
