@@ -7,6 +7,8 @@ description: Use a local Apple app toolchain on macOS. Route Apple Notes tasks t
 
 Use the local Apple app toolchain already available on macOS. This skill is the router for the Apple app skills in this repo.
 
+If the `apple-plugin` Codex plugin is installed, prefer its MCP tools first. Otherwise use the root skills directly.
+
 Use this routing:
 
 - Notes or Apple Notes app -> `apple-notes`

@@ -1,0 +1,28 @@
+{
+  "name": "apple-plugin",
+  "version": "0.1.0",
+  "description": "Single-install Codex plugin for Apple Notes, Reminders, and Mail on macOS with a local MCP server and canonical Apple skills.",
+  "author": {
+    "name": "Longbiao Chen"
+  },
+  "license": "MIT",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Apple Plugin",
+    "shortDescription": "Local Apple Notes, Reminders, and Mail tools for Codex",
+    "longDescription": "Packages the canonical apple-skills workflows into one Codex-local plugin. Installs an MCP server for Apple Notes, Reminders, Mail, and environment doctor checks while preserving the underlying skill documentation and local-first safety model.",
+    "developerName": "Longbiao Chen",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Run the Apple plugin doctor and summarize the local Apple toolchain status",
+      "Use local Apple tools to search Mail, inspect reminders, or work with notes",
+      "Draft an email in Mail.app and only send it after explicit confirmation"
+    ]
+  }
+}

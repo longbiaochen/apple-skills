@@ -1,6 +1,6 @@
 # Apple Skills Agent Contract
 
-`apple-skills` is a multi-agent macOS skill pack. The canonical behavior lives in the four skill folders:
+`apple-skills` is a multi-agent macOS skill pack. The canonical behavior lives in the four root skill folders:
 
 - `apple-ecosystem`
 - `apple-mail`
@@ -8,6 +8,8 @@
 - `apple-reminders`
 
 Root adapter docs such as `README.md`, `AGENTS.md`, and `CLAUDE.md` must mirror those skills and must not redefine behavior.
+
+The Codex-local `apple-plugin` packages these workflows into one plugin and MCP server, but it must follow the same routing and safety defaults.
 
 ## Shared Invariants
 

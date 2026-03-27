@@ -2,6 +2,8 @@
 
 This repo provides a local-first macOS Apple app toolkit for Claude-style agent workflows.
 
+For Codex specifically, the preferred install surface is the local `apple-plugin/` package. The root skill folders below remain canonical.
+
 The source of truth is the four canonical skills:
 
 - `apple-ecosystem`

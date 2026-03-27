@@ -1,1 +1,3 @@
 .DS_Store
+apple-plugin/node_modules/
+npm-debug.log*

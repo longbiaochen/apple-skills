@@ -8,6 +8,7 @@ Thanks for contributing.
 - `apple-mail/`: Mail skill plus helper scripts
 - `apple-notes/`: Notes skill
 - `apple-reminders/`: Reminders skill
+- `apple-plugin/`: Codex-local plugin, MCP server, and plugin-facing skill
 - `docs/agent-contract.md`: shared cross-agent invariants
 - `docs/launch/`: community launch copy and announcement drafts
 
@@ -21,8 +22,10 @@ Thanks for contributing.
 - Document permission requirements clearly when a tool needs Automation, Full Disk Access, or app authorization.
 - Treat destructive actions as high-risk and require explicit confirmation in the skill guidance.
 - Start behavior changes in the relevant `SKILL.md` and any linked `references/` files first.
+- Sync `apple-plugin/` after canonical skill changes so the plugin MCP tools and install docs remain aligned.
 - Sync `README.md`, `AGENTS.md`, `CLAUDE.md`, and `agents/openai.yaml` after canonical skill changes.
 - Do not let agent-specific adapters change routing, tool choice, or safety defaults unless the canonical skill changes first.
+- Do not let the plugin MCP server drift away from the canonical root skills.
 
 ## Testing
 
@@ -33,6 +36,9 @@ bash -n apple-mail/scripts/mail_draft.sh
 bash -n apple-mail/scripts/mail_action.sh
 ./apple-mail/scripts/mail_draft.sh --help
 ./apple-mail/scripts/mail_action.sh --help
+npm --prefix apple-plugin install
+npm --prefix apple-plugin run check
+npm --prefix apple-plugin run doctor
 ```
 
 Also verify:

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "apple-plugin": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "./src/server.mjs"
+      ],
+      "cwd": ".",
+      "note": "Local Apple Notes, Reminders, Mail, and doctor MCP server for Codex."
+    }
+  }
+}

@@ -4,18 +4,23 @@
 [![macOS](https://img.shields.io/badge/platform-macOS-black.svg)](https://www.apple.com/macos/)
 [![Local First](https://img.shields.io/badge/workflow-local--first-blue.svg)](./docs/agent-contract.md)
 
-Local-first Apple app skills for coding agents on macOS.
+Local-first Apple app tooling for coding agents on macOS, packaged as a Codex plugin and preserved as canonical skills.
 
 Repo: [github.com/longbiaochen/apple-skills](https://github.com/longbiaochen/apple-skills)
 
-This repository packages four canonical skills:
+This repository now ships two coordinated surfaces:
+
+- `apple-plugin/`: the preferred Codex-local plugin with one MCP install surface
+- the canonical root skill folders, which remain the source of truth for behavior and fallback use
+
+The canonical root skills are:
 
 - `apple-ecosystem`: a router skill that sends Apple app tasks to the right specialist skill
 - `apple-notes`: manage Apple Notes through `memo`
 - `apple-reminders`: manage Apple Reminders through `remindctl`
 - `apple-mail`: search, read, draft, and act on Apple Mail with `fruitmail`, `osascript`, and helper scripts
 
-The skill folders are the source of truth. Repo-level files such as `README.md`, `AGENTS.md`, and `CLAUDE.md` are adapters that mirror those skills for different agent runtimes.
+The root skill folders are the source of truth. The Codex plugin packages those workflows into a single installable unit. Repo-level files such as `README.md`, `AGENTS.md`, and `CLAUDE.md` are adapters that mirror the canonical skills instead of redefining them.
 
 ## Why this exists
 
@@ -28,12 +33,15 @@ Most AI workflows reach for browser automation or third-party APIs. This repo ta
 
 ## Canonical Surface
 
-The package has one router skill and three app-specific skills:
+The package has one plugin-first Codex surface and four canonical root skills:
 
-- `apple-ecosystem` decides whether a request belongs to Notes, Reminders, or Mail
-- `apple-notes` wraps `memo`
-- `apple-reminders` wraps `remindctl`
-- `apple-mail` combines `fruitmail` for fast read-only access with helper scripts for drafting and exact-message actions
+- `apple-plugin`: local Codex plugin with an MCP server for doctor, notes, reminders, and mail
+- `apple-ecosystem`: root router skill
+- `apple-notes`: root Notes skill
+- `apple-reminders`: root Reminders skill
+- `apple-mail`: root Mail skill
+
+The root skills define the canonical behavior. The plugin reuses that behavior but exposes it as a single Codex-local plugin plus MCP server.
 
 Shared behavior invariants live in [docs/agent-contract.md](./docs/agent-contract.md).
 
@@ -42,6 +50,26 @@ Shared behavior invariants live in [docs/agent-contract.md](./docs/agent-contrac
 ```text
 AGENTS.md
 CLAUDE.md
+.agents/
+  plugins/
+    marketplace.json
+apple-plugin/
+  .codex-plugin/
+    plugin.json
+  .mcp.json
+  package.json
+  references/
+    workflows.md
+  scripts/
+    install-local-plugin.sh
+    print-codex-config.mjs
+    run-doctor.mjs
+  skills/
+    apple-plugin/
+      SKILL.md
+      agents/openai.yaml
+  src/
+    server.mjs
 apple-ecosystem/
   SKILL.md
   agents/openai.yaml
@@ -80,7 +108,8 @@ docs/
 
 | Runtime | Entry point | Notes |
 | --- | --- | --- |
-| Codex / OpenAI skills | skill folders + `SKILL.md` | Install the four skill folders directly. |
+| Codex plugin | `apple-plugin/` | Preferred one-install Codex surface with MCP tools. |
+| Codex / OpenAI skills | root skill folders + `SKILL.md` | Direct skill fallback when you do not want the plugin. |
 | Claude | `CLAUDE.md` | Use the repo-level adapter, then follow the relevant skill. |
 | AGENTS-style runtimes, including OpenClaw | `AGENTS.md` | Use the repo-level adapter, then follow the relevant skill. |
 
@@ -94,26 +123,38 @@ docs/
 
 ## Install And Consume
 
-### Codex / OpenAI Skills
+### Codex Plugin
 
-Copy or symlink the skill folders into your Codex skills directory:
+Install the plugin into your local Codex plugins directory:
+
+```bash
+cd /path/to/your/apple-skills/apple-plugin
+npm install
+./scripts/install-local-plugin.sh
+```
+
+This gives Codex one plugin entry point that bundles:
+
+- the `apple-plugin` skill
+- the `apple-plugin` MCP server
+- Notes, Reminders, Mail, and doctor tools in one local package
+
+If you want a direct `config.toml` snippet instead of plugin discovery, print one with:
+
+```bash
+node ./apple-plugin/scripts/print-codex-config.mjs
+```
+
+### Canonical Skill Fallback
+
+Copy or symlink the root skill folders into your Codex skills directory when you want direct skill installs without the plugin:
 
 ```bash
 cd /path/to/your/apple-skills
 cp -R apple-ecosystem apple-mail apple-notes apple-reminders ~/.codex/skills/
 ```
 
-Or symlink them during development:
-
-```bash
-cd /path/to/your/apple-skills
-ln -s "$(pwd)/apple-ecosystem" ~/.codex/skills/apple-ecosystem
-ln -s "$(pwd)/apple-mail" ~/.codex/skills/apple-mail
-ln -s "$(pwd)/apple-notes" ~/.codex/skills/apple-notes
-ln -s "$(pwd)/apple-reminders" ~/.codex/skills/apple-reminders
-```
-
-Each skill includes `agents/openai.yaml` metadata for OpenAI-style skill UIs.
+Each root skill includes `agents/openai.yaml` metadata for OpenAI-style skill UIs.
 
 ### Claude
 
@@ -125,9 +166,11 @@ Read [`AGENTS.md`](./AGENTS.md) as the repo-level adapter, then consult the rele
 
 ## Verify Setup
 
-Run the underlying tools directly before using the skills:
+Run the underlying tools directly before using the skills or plugin:
 
 ```bash
+npm --prefix apple-plugin install
+npm --prefix apple-plugin run doctor
 memo --help
 remindctl --help
 remindctl status
